@@ -1,0 +1,55 @@
+Improvements necessary to my Graduate Research Proposal
+
+Summary of why Yangs proposal summary is good:
+1. General statement of the changes being made to the Grid and benefit those changes will have
+2. Followed immediately by the challenges and specific examples of difficulties faced by industry
+3. Simplify and specify the problem 
+4. followed by what this proposal will use to solve the problem.
+4.a general statement of how to use systems
+5. The procedure of exactly what is going to be completed.
+6. Followed by a brief and specific description of the application.
+7. What will the completion of this project allow people to do.
+8. Description of incorporating wide range of topics
+9. Specific examples of applications that can benefit outside the scope of direct completion of the from this project. Education
+10. Industry partners lined up.
+
+
+Necessary improvements to paper:
+1. More concise and clear of the technical problems utilities are facing
+	-Why batteries will be necessary
+	-challenges of identifying and implementing batteries.
+	-Ties to PV.
+2. The ideas are there, but its not incredibly specific and too many. Unorganized
+3. Too many problems and too much background.
+4. Solution is not concisely laid out 
+
+
+1. home based batteries provide benefits to the grid and the customer 
+	Batteries becoming cost effective to regulate PV and keep grid safe.
+2. Difficult to identify batteries (regulations and utility capability) and assess impact they have.
+	challenges of monitoring DER/BESS
+	No way to assess positive impact of Storage systems
+	lack of knowledge of the distribution grid.
+	current lack of communication networks
+	
+3. How to adapt to the new technology and assess impacts?
+4. New heterogeneous data is being collected from smart meters 
+	new tools accessible to analyze and control system
+	efficient topology reconstruction
+	control algorithms
+	modeling software  
+4a. Leverage new capability of available data, machine learning, 	
+5a. expand on topology estimation of PV to include identifying battery systems, and provide tools to assess impact
+5. Use data to identify battery systems
+	generate battery AMI data using control models (aashiek paper)
+	Combine with PV to identify systems with batteries. Compare accuracy
+	Extract estimated battery parameters from data. Compare output parameters with inputs
+	Identify key features needed to asses battery
+	develop algorithm to assess impacts battery systems having on grid 
+	develop algorithm to adjust certain battery parameters to improve grid preformance
+6. These tools will allow operators to assess battery impacts to safely increase PV threshold
+7. success of our project allow operators to provide recommendations and estimate state of devices on the grid
+8. multidimensional project combining data, probability, power systems, forecasting, PV
+9. give reason to educate customers, increase hosting capacity, understand information that is necessary to model a battery
+10. Use industry data (DLC)
+	
