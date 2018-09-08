@@ -24,6 +24,8 @@ Necessary improvements to paper:
 4. Solution is not concisely laid out 
 
 
+----------------------------------------------------------------------
+
 1. home based batteries provide benefits to the grid and the customer 
 	Batteries becoming cost effective to regulate PV and keep grid safe.
 2. Difficult to identify batteries (regulations and utility capability) and assess impact they have.
