@@ -159,13 +159,17 @@ def get_dayType(day,year):
 		return "weekday"
 	
 
-def plot_loadDay(loadDay):
+def plot_loadDay(loadDay, col):
 	
 	
+
 	
-	for row in loadDay:
+	for i in range(0, len(loadDay)-1):
+		row1 = loadDay[i]
+		row2 = loadDay[i+1]
+	
 		
-		plt.plot(row['time'][:-6],row['kw'], marker='.', color='green')
+		plt.plot([int(row1['time'][:-6]),int(row2['time'][:-6])],[row1['kw'], row2['kw']], marker='.', color=col)
 	
 
 	
@@ -333,7 +337,7 @@ if __name__ == "__main__":
 	pvFileName = sys.argv[1]
 	
 	extract_PVdata('table.csv')
-	plot_PVdata()
+	#plot_PVdata()
 	PV_peak_scal = calc_PV_peakhours_gen(15,20)
 	PV_offpeak_scal = calc_PV_peakhours_gen(0,25) - PV_peak_scal
 	
@@ -343,16 +347,16 @@ if __name__ == "__main__":
 	
 	
 	
-	plt.subplot(2,1,2)
+	#plt.subplot(1,2,1)
 	#for key in loadDay_keys:
 	#	print(key)
-	plot_loadDay(loadDays["06/15"])
+	plot_loadDay(loadDays["06/15"],"green")
 	
 	plt.xlabel("Time (hours)")
 	plt.ylabel("KW per Hour Load")
-	plt.title("One Year of Load")	
+	plt.title("One customer load profile")	
 	
-	#plt.show()
+	
 	
 	peak_load = get_peakConsumption(loadDays["06/15"],15,20)
 	offpeak_load = get_peakConsumption(loadDays["06/15"],0,25) - peak_load
@@ -361,20 +365,50 @@ if __name__ == "__main__":
 	
 	PVpp_kw = 2198
 	BESSpp_kwh =550
-	for BESSpp_kwh in range(300,910,10):
-		constants = [PV_peak_scal,peak_load,PV_offpeak_scal,offpeak_load,PVpp_kw,BESSpp_kwh]
-		#print (constants)
-		print ("Battery pp kwh:",BESSpp_kwh)
-		PVsize = 6
-		BESSsize = 0
-		results = minimize(costfunc,[PVsize,BESSsize],args=constants, method = 'L-BFGS-B',bounds=((0,peak_load/PV_peak_scal),(0,peak_load/.8)))#,constraints=cons)
-		if results["success"]:
+	
+	# for BESSpp_kwh in range(300,910,10):
+		# constants = [PV_peak_scal,peak_load,PV_offpeak_scal,offpeak_load,PVpp_kw,BESSpp_kwh]
+		# print (constants)
+		# print ("Battery pp kwh:",BESSpp_kwh)
+		# PVsize = 6
+		# BESSsize = 0
+		# results = minimize(costfunc,[PVsize,BESSsize],args=constants, method = 'L-BFGS-B',bounds=((0,peak_load/PV_peak_scal),(0,peak_load/.8)))#,constraints=cons)
+		# if results["success"]:
 		
-			print (list(results['x']))
-			print ("cost:"+ str(round(costfunc(list(results['x']),constants),4)))
-			print ("total peak supplied: ", str(round(list(results['x'])[0]*PV_peak_scal+list(results['x'])[1]*.8,4)))
-			print (" ")
-
+			# print (list(results['x']))
+			# print ("cost:"+ str(round(costfunc(list(results['x']),constants),4)))
+			# print ("total peak supplied: ", str(round(list(results['x'])[0]*PV_peak_scal+list(results['x'])[1]*.8,4)))
+			# print (" ")
+	BESSpp_kwh = 360
+	constants = [PV_peak_scal,peak_load,PV_offpeak_scal,offpeak_load,PVpp_kw,BESSpp_kwh]		
+	
+	plus_bat_load = copy.deepcopy(loadDays["06/15"])
+	chrgHrs = 6
+	for row in plus_bat_load:
+		
+		if int(row['time'][:-6]) <= chrgHrs:
+			row['kw'] = (peak_load/.9)/(chrgHrs-1)
+		elif int(row['time'][:-6]) > 14 and int(row['time'][:-6]) < 20:
+			row['kw'] = 0
+	#plt.subplot(1,2,2)
+	
+	
+	plot_loadDay(plus_bat_load,"red")
+	
+	#plt.axis([0,24,0,4.5])
+	
+	with open("loadBatteryExample.csv","w") as wr:
+		for row in loadDays["06/15"]:
+			wr.write(str(row['kw']))
+			wr.write(",")
+		wr.write("\n")
+		for row in plus_bat_load:
+			wr.write(str(row['kw']))
+			wr.write(",")
+		wr.write("\n")
+		
+	
+	plt.show()
 	
 	#arg = [PVsize,PV_multiplier,peak_load,BESSsize]
 	#cons = {'type':'eq', 'fun': BESS_constraint(arg)}
