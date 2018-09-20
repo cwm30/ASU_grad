@@ -383,11 +383,11 @@ if __name__ == "__main__":
 	constants = [PV_peak_scal,peak_load,PV_offpeak_scal,offpeak_load,PVpp_kw,BESSpp_kwh]		
 	
 	plus_bat_load = copy.deepcopy(loadDays["06/15"])
-	chrgHrs = 6
+	chrgHrs = 7
 	for row in plus_bat_load:
 		
 		if int(row['time'][:-6]) <= chrgHrs:
-			row['kw'] = (peak_load/.9)/(chrgHrs-1)
+			row['kw'] = (peak_load/.9)/(chrgHrs-1)+row['kw']
 		elif int(row['time'][:-6]) > 14 and int(row['time'][:-6]) < 20:
 			row['kw'] = 0
 	#plt.subplot(1,2,2)
@@ -397,7 +397,7 @@ if __name__ == "__main__":
 	
 	#plt.axis([0,24,0,4.5])
 	
-	with open("loadBatteryExample.csv","w") as wr:
+	with open("loadBatteryEx.csv","w") as wr:
 		for row in loadDays["06/15"]:
 			wr.write(str(row['kw']))
 			wr.write(",")
